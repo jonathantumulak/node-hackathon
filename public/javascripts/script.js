@@ -154,7 +154,7 @@ $(document).ready(function() {
             oImg1.left = 198;
             canvas.add(oImg1);
 
-            var ani = setInterval(animate, 10);
+            var ani = setInterval(animate, 5);
             function animate() {
                 oImg1.top+=1;
                 canvas.renderAll();
