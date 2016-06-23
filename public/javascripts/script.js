@@ -4,20 +4,27 @@ $(document).ready(function() {
     * init canvas
     */
     canvas = new fabric.Canvas('canvas');
-    bb1 = null;
+
+    var audio = new Audio('/jc.mp3');
+    audio.loop = true;
+    audio.play();
+    audio.volume = .3;
     fabric.Image.fromURL('/images/bby1.jpg', function(oImg) {
 
         oImg.selectable = false;
+        oImg.id = "bby";
         bb1 = oImg;
         canvas.add(oImg);
         oImg.center();
         fabric.Image.fromURL('/images/shades.png', function(oImg1) {
+            oImg1.id = "shades";
             oImg1.selectable = false;
             oImg1.scaleX = .5;
             oImg1.scaleY = .5;
             canvas.add(oImg1);
             oImg1.center();
             oImg1.bringToFront();
+            oImg1.drawBorders();
         });
     });
     /*
@@ -26,20 +33,39 @@ $(document).ready(function() {
     * 39 down
     * 40 right
     */
+    var play = false;
     $(document).keydown(function(e){
-        var keyStroke = e.which || e.keycode;
+        if (play) {
+            var keyStroke = e.which || e.keycode;
+            keyStrokeFuck(keyStroke);
+            if (checkPerimeter()) {
+                audio.pause();
+                setTimeout(function() {
+                    var thug = new Audio('/snoop.mp3');
+                    thug.loop = true;
+                    thug.play();
+                    play = false;
+                }, 500);
+            }
+            canvas.renderAll();
+        }
+    });
 
-        keyStrokeFuck(keyStroke)
-        canvas.renderAll();
-    })
+    $('.play').on('click', function(){
+        $('.modal').fadeOut(200, function(){
+            play = true;
+        })
+    });
 
     function getRandomMovementSpeed(){
-        return Math.floor((Math.random() * 50) + 20);
+        return Math.floor((Math.random() * 80) + 20);
     }
 
     function keyStrokeFuck(keyCode){
         if (keyCode >= 37 && keyCode <= 40) {
-            var item = canvas.item(1);
+            var item = canvas.getObjects().filter(function(obj){
+                return obj.id === 'shades';
+            })[0];
             var ileft = item.getLeft();
             var itop = item.getTop();
             if (keyCode === 37) {
@@ -59,8 +85,25 @@ $(document).ready(function() {
                     top: itop+getRandomMovementSpeed(),
                 });
             }
-        } else {
-            return null;
         }
     }
+
+    function checkPerimeter(){
+        var pointX= 226;
+        var pointY= 144;
+
+        var item = canvas.getObjects().filter(function(obj){
+            return obj.id === 'shades'; })[0];
+        var item1 = canvas.getObjects().filter(function(obj){
+            return obj.id === 'bby'; })[0];
+
+        var ileft = item.getCenterPoint().x;
+        var itop = item.getCenterPoint().y;
+        console.log(ileft, itop, item1.getCenterPoint());
+        if ((ileft < 270 && ileft > 260) && (itop < 261 && itop > 250))
+            return true;
+        else
+            return false;
+    }
+
 });
