@@ -37,14 +37,14 @@ $(document).ready(function() {
     $(document).keydown(function(e){
         if (play) {
             var keyStroke = e.which || e.keycode;
-            keyStrokeFuck(keyStroke);
+            var m = keyStrokeFuck(keyStroke);
             if (checkPerimeter()) {
                 audio.pause();
+                play = false;
                 setTimeout(function() {
                     var thug = new Audio('/snoop.mp3');
                     thug.loop = true;
                     thug.play();
-                    play = false;
                     endGame();
                     $('img').removeClass('hidden');
                 }, 500);
@@ -70,22 +70,27 @@ $(document).ready(function() {
             })[0];
             var ileft = item.getLeft();
             var itop = item.getTop();
+            var m = getRandomMovementSpeed();
             if (keyCode === 37) {
                 item.set({
-                    left: ileft-getRandomMovementSpeed(),
+                    left: ileft-m,
                 });
+                return {left: m}
             } else if (keyCode === 38) {
                 item.set({
-                    top: itop-getRandomMovementSpeed(),
+                    top: itop-m,
                 });
+                return {top: m}
             } else if (keyCode === 39) {
                 item.set({
-                    left: ileft+getRandomMovementSpeed(),
+                    left: ileft+m,
                 });
+                return {left: m}
             } else {
                 item.set({
-                    top: itop+getRandomMovementSpeed(),
+                    top: itop+m,
                 });
+                return {top: m}
             }
         }
     }
