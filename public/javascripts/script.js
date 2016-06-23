@@ -22,7 +22,6 @@ $(document).ready(function() {
             oImg1.scaleX = .5;
             oImg1.scaleY = .5;
             canvas.add(oImg1);
-            oImg1.center();
             oImg1.bringToFront();
             oImg1.drawBorders();
         });
