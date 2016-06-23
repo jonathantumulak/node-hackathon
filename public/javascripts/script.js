@@ -10,12 +10,15 @@ $(document).ready(function() {
         oImg.selectable = false;
         bb1 = oImg;
         canvas.add(oImg);
-    });
-    fabric.Image.fromURL('/images/shades.png', function(oImg) {
-        oImg.selectable = false;
-        oImg.scaleX = .5;
-        oImg.scaleY = .5;
-        canvas.add(oImg);
+        oImg.center();
+        fabric.Image.fromURL('/images/shades.png', function(oImg1) {
+            oImg1.selectable = false;
+            oImg1.scaleX = .5;
+            oImg1.scaleY = .5;
+            canvas.add(oImg1);
+            oImg1.center();
+            oImg1.bringToFront();
+        });
     });
     /*
     * 37 left
@@ -31,7 +34,7 @@ $(document).ready(function() {
     })
 
     function getRandomMovementSpeed(){
-        return Math.floor((Math.random() * 50) + 1);
+        return Math.floor((Math.random() * 50) + 20);
     }
 
     function keyStrokeFuck(keyCode){
