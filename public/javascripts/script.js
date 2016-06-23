@@ -45,6 +45,7 @@ $(document).ready(function() {
                     thug.loop = true;
                     thug.play();
                     play = false;
+                    endGame();
                 }, 500);
             }
             canvas.renderAll();
@@ -106,4 +107,62 @@ $(document).ready(function() {
             return false;
     }
 
+    function endGame() {
+        var topText = ['T', 'H', 'U', 'G'];
+        var bottomText = ['L', 'I', 'F', 'E'];
+
+        var startTop = 120;
+
+        for (char in topText) {
+            var text = new fabric.Text(topText[char], {
+              fontFamily: 'Impact',
+              fontStyle: 'bold',
+              stroke: '#000',
+              strokeWidth: 3,
+              fill: '#fff',
+              left: startTop,
+              fontSize: 72,
+              selectable: false,
+            });
+            canvas.add(text);
+            startTop = startTop + 100;
+        }
+
+        startTop = 120;
+
+        for (char in bottomText) {
+            var text = new fabric.Text(bottomText[char], {
+              fontFamily: 'Impact',
+              fontStyle: 'bold',
+              stroke: '#000',
+              strokeWidth: 3,
+              fill: '#fff',
+              left: startTop,
+              top: 510,
+              fontSize: 72,
+              selectable: false,
+            });
+            canvas.add(text);
+            startTop = startTop + 100;
+        }
+
+        fabric.Image.fromURL('/images/joint.png', function(oImg1) {
+            oImg1.selectable = false;
+            oImg1.scaleX = .3;
+            oImg1.scaleY = .3;
+            oImg1.top = 0;
+            oImg1.left = 198;
+            canvas.add(oImg1);
+
+            var ani = setInterval(animate, 10);
+            function animate() {
+                oImg1.top+=1;
+                canvas.renderAll();
+                if (oImg1.top > 295) {
+                    clearInterval(ani)
+                }
+            };
+        });
+
+    }
 });
