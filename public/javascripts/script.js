@@ -46,6 +46,7 @@ $(document).ready(function() {
                     thug.play();
                     play = false;
                     endGame();
+                    $('img').removeClass('hidden');
                 }, 500);
             }
             canvas.renderAll();
